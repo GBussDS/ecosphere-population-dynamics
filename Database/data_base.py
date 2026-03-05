@@ -5,8 +5,8 @@ import logger
 import os
 import glob
 
-DB_FILE = os.path.join('Database', 'Data', 'database.db')
-VIDEO_DIR = os.path.join('Database', 'Videos')
+DB_FILE = 'DataBase/Data/database.db'
+VIDEO_DIR = 'DataBase/Videos/'
 
 class DataBase:
     def __init__(self):
@@ -14,7 +14,6 @@ class DataBase:
         self.timestamp = time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
     def save_data_to_db(self, data: pd.DataFrame, table_name: str):
-        os.makedirs(DB_FILE, exist_ok=True)
         self.logger.info(f"[Data Base] Saving data to database: {table_name}")
 
         conn = sqlite3.connect(DB_FILE)
