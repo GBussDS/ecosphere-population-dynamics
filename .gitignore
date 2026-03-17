@@ -1,5 +1,7 @@
 venv/
 __pycache__/
-Database/Data
+Database/Data/Videos/*
+Database/Data/Scenes/*
+Database/Data/*.db
 logs/
 *.pyc
