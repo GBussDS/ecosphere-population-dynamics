@@ -5,28 +5,25 @@ import logger
 import glob
 import os
 
-MODEL_PATH = "yolo11n.pt"
-MODELS_DIR = "Models/Trained"
-
 class PopulationTracker:
-    def __init__(self, use_last_trained_model=False):
+    def __init__(self, logger, database, model_path=None, model_dir=None, use_last_trained_model=False):
+        self.logger = logger
+        self.database = database
+
         if use_last_trained_model:
-            model_path = MODELS_DIR
+            model_path = model_dir
             
-            list_of_files = glob.glob(os.path.join(MODELS_DIR, "*.pt"))
+            list_of_files = glob.glob(os.path.join(model_dir, "*.pt"))
             if not list_of_files:
-                self.logger.warning(f"No models found in {MODELS_DIR}. Using default: {MODEL_PATH}")
-                model_to_use = MODEL_PATH
+                self.logger.warning(f"No models found in {model_dir}. Using default: {model_path}")
+                model_to_use = model_path
             else:
                 model_to_use = max(list_of_files, key=os.path.getmtime)
                 self.logger.info(f"Using latest trained model: {model_to_use}")
         else:
-            model_to_use = MODEL_PATH
+            model_to_use = model_path
 
         self.model = YOLO(model_to_use)
-
-        self.logger = logger.Logger()
-        self.database = DataBase()
     
     def run_analysis(self):
         self.logger.info("[Population Tracker] Starting video extraction")
